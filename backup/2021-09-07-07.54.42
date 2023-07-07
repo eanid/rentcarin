@@ -1,0 +1,144 @@
+#
+# TABLE STRUCTURE FOR: backups
+#
+
+DROP TABLE IF EXISTS `backups`;
+
+CREATE TABLE `backups` (
+  `backup_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `backup_file_name` varchar(255) NOT NULL,
+  `backup_notes` varchar(255) DEFAULT NULL,
+  `backup_date` date NOT NULL,
+  `backup_time` time NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`backup_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
+
+INSERT INTO `backups` (`backup_id`, `backup_file_name`, `backup_notes`, `backup_date`, `backup_time`, `user_id`) VALUES (76, '2021-09-07-07.54.11.gz', '', '2021-09-07', '07:54:11', 1);
+INSERT INTO `backups` (`backup_id`, `backup_file_name`, `backup_notes`, `backup_date`, `backup_time`, `user_id`) VALUES (77, '2021-09-07-07.54.22.gz', '2nd backup', '2021-09-07', '07:54:22', 1);
+INSERT INTO `backups` (`backup_id`, `backup_file_name`, `backup_notes`, `backup_date`, `backup_time`, `user_id`) VALUES (78, '2021-09-07-07.54.33.gz', '3rd backup', '2021-09-07', '07:54:33', 1);
+
+
+#
+# TABLE STRUCTURE FOR: ci_sessions
+#
+
+DROP TABLE IF EXISTS `ci_sessions`;
+
+CREATE TABLE `ci_sessions` (
+  `id` varchar(128) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
+  `data` blob NOT NULL,
+  KEY `ci_sessions_timestamp` (`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: groups
+#
+
+DROP TABLE IF EXISTS `groups`;
+
+CREATE TABLE `groups` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES (1, 'admin', 'Administrators');
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES (2, 'members', 'General Users');
+
+
+#
+# TABLE STRUCTURE FOR: login_attempts
+#
+
+DROP TABLE IF EXISTS `login_attempts`;
+
+CREATE TABLE `login_attempts` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(45) NOT NULL,
+  `login` varchar(100) DEFAULT NULL,
+  `time` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: migrations
+#
+
+DROP TABLE IF EXISTS `migrations`;
+
+CREATE TABLE `migrations` (
+  `version` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `migrations` (`version`) VALUES ('1');
+
+
+#
+# TABLE STRUCTURE FOR: settings
+#
+
+DROP TABLE IF EXISTS `settings`;
+
+CREATE TABLE `settings` (
+  `setting_name` varchar(50) NOT NULL,
+  `setting_group` varchar(50) DEFAULT NULL,
+  `setting_name_alias` varchar(200) NOT NULL,
+  `setting_name_description` text NOT NULL,
+  `setting_value` varchar(200) NOT NULL,
+  `field_type` varchar(20) NOT NULL,
+  `field_width` tinyint(1) NOT NULL,
+  PRIMARY KEY (`setting_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: users
+#
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(45) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(80) NOT NULL,
+  `salt` varchar(40) DEFAULT NULL,
+  `email` varchar(254) NOT NULL,
+  `activation_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_time` int(11) unsigned DEFAULT NULL,
+  `remember_code` varchar(40) DEFAULT NULL,
+  `created_on` int(11) unsigned NOT NULL,
+  `last_login` int(11) unsigned DEFAULT NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `company` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES (1, '127.0.0.1', 'administrator', '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36', '', 'admin@admin.com', '', NULL, NULL, NULL, 1268889823, 1630999732, 1, 'Admin', 'istrator', 'ADMIN', '0');
+
+
+#
+# TABLE STRUCTURE FOR: users_groups
+#
+
+DROP TABLE IF EXISTS `users_groups`;
+
+CREATE TABLE `users_groups` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` mediumint(8) unsigned NOT NULL,
+  `group_id` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES (1, 1, 1);
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES (2, 1, 2);
+
+
